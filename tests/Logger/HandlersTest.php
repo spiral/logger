@@ -15,6 +15,7 @@ use Spiral\Core\Container;
 use Spiral\Debug\LogsInterface;
 use Spiral\Logger\Bootloaders\MonologBootloader;
 use Spiral\Logger\Configs\MonologConfig;
+use Spiral\Logger\Events\EventHandler;
 
 class HandlersTest extends TestCase
 {
@@ -39,5 +40,17 @@ class HandlersTest extends TestCase
         $logger = $this->getLogger();
         $this->assertSame("test", $logger->getName());
         $this->assertCount(0, $logger->getHandlers());
+    }
+
+    public function testDefaultHandler()
+    {
+        $this->container->bind(MonologConfig::class, new MonologConfig([
+            'globalHandler' => Logger::DEBUG
+        ]));
+
+        $logger = $this->getLogger();
+        $this->assertSame("test", $logger->getName());
+        $this->assertCount(1, $logger->getHandlers());
+        $this->assertInstanceOf(EventHandler::class, $logger->getHandlers()[0]);
     }
 }
