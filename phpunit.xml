@@ -13,7 +13,7 @@
 >
 
     <testsuites>
-        <testsuite name="Monolog Wrapper and Global Listeners">
+        <testsuite name="LogFactory and global log listeners">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

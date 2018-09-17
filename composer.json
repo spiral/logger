@@ -1,7 +1,7 @@
 {
   "name": "spiral/logger",
   "type": "library",
-  "description": "Monolog Wrapper and Global Listeners",
+  "description": "LogFactory and global log listeners",
   "license": "MIT",
   "authors": [
     {
