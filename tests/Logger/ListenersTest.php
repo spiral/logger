@@ -38,6 +38,7 @@ class ListenersTest extends TestCase
         $other->alert("alert", ['context']);
 
         $this->assertCount(2, $records);
+        $this->assertInstanceOf(\DateTimeInterface::class, $records[0]->getTime());
         $this->assertSame("default", $records[0]->getChannel());
         $this->assertSame(Logger::DEBUG, $records[0]->getLevel());
         $this->assertSame("DEBUG", $records[0]->getLevelName());
@@ -71,6 +72,7 @@ class ListenersTest extends TestCase
 
         $this->assertCount(1, $records);
 
+        $this->assertInstanceOf(\DateTimeInterface::class, $records[0]->getTime());
         $this->assertSame("other", $records[0]->getChannel());
         $this->assertSame(Logger::ALERT, $records[0]->getLevel());
         $this->assertSame("ALERT", $records[0]->getLevelName());
