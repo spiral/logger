@@ -50,4 +50,31 @@ class ListenersTest extends TestCase
         $this->assertSame("alert", $records[1]->getMessage());
         $this->assertSame(['context'], $records[1]->getContext());
     }
+
+    public function testListenError()
+    {
+        $factory = new LogFactory(new MonologConfig([
+            'globalHandler' => Logger::ERROR
+        ]), new Container(), new EventDispatcher());
+
+        $logger = $factory->getLogger();
+        $other = $factory->getLogger("other");
+
+        /** @var LogEvent[]|array $records */
+        $records = [];
+        $factory->getEventDispatcher()->addListener("log", function (LogEvent $e) use (&$records) {
+            $records[] = $e;
+        });
+
+        $logger->debug("debug");
+        $other->alert("alert", ['context']);
+
+        $this->assertCount(1, $records);
+
+        $this->assertSame("other", $records[0]->getChannel());
+        $this->assertSame(Logger::ALERT, $records[0]->getLevel());
+        $this->assertSame("ALERT", $records[0]->getLevelName());
+        $this->assertSame("alert", $records[0]->getMessage());
+        $this->assertSame(['context'], $records[0]->getContext());
+    }
 }
