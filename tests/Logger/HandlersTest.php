@@ -13,7 +13,7 @@ use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use Spiral\Core\BootloadManager;
 use Spiral\Core\Container;
-use Spiral\Debug\LogsInterface;
+use Spiral\Logger\LogsInterface;
 use Spiral\Logger\Bootloaders\MonologBootloader;
 use Spiral\Logger\Configs\MonologConfig;
 use Spiral\Logger\Events\EventHandler;

@@ -12,7 +12,7 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Spiral\Core\Bootloaders\Bootloader;
 use Spiral\Core\Container;
-use Spiral\Debug\LogsInterface;
+use Spiral\Logger\LogsInterface;
 use Spiral\Logger\LogFactory;
 
 class MonologBootloader extends Bootloader

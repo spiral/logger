@@ -30,7 +30,7 @@ class ListenersTest extends TestCase
 
         /** @var LogEvent[]|array $records */
         $records = [];
-        $factory->getEventDispatcher()->addListener("log", function (LogEvent $e) use (&$records) {
+        $factory->addListener(function (LogEvent $e) use (&$records) {
             $records[] = $e;
         });
 
@@ -63,7 +63,7 @@ class ListenersTest extends TestCase
 
         /** @var LogEvent[]|array $records */
         $records = [];
-        $factory->getEventDispatcher()->addListener("log", function (LogEvent $e) use (&$records) {
+        $factory->addListener($l = function (LogEvent $e) use (&$records) {
             $records[] = $e;
         });
 
@@ -78,5 +78,11 @@ class ListenersTest extends TestCase
         $this->assertSame("ALERT", $records[0]->getLevelName());
         $this->assertSame("alert", $records[0]->getMessage());
         $this->assertSame(['context'], $records[0]->getContext());
+
+        $factory->removeListener($l);
+
+        $logger->debug("debug");
+        $other->alert("alert", ['context']);
+        $this->assertCount(1, $records);
     }
 }

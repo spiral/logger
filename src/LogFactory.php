@@ -16,12 +16,10 @@ use Psr\Log\LoggerInterface;
 use Spiral\Core\Container\InjectorInterface;
 use Spiral\Core\Container\SingletonInterface;
 use Spiral\Core\FactoryInterface;
-use Spiral\Debug\LogsInterface;
 use Spiral\Logger\Configs\MonologConfig;
 use Spiral\Logger\Events\EventHandler;
 use Spiral\Logger\Exceptions\ConfigException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
 {
@@ -51,8 +49,11 @@ class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
      * @param FactoryInterface $factory
      * @param EventDispatcher  $dispatcher
      */
-    public function __construct(MonologConfig $config, FactoryInterface $factory, EventDispatcher $dispatcher)
-    {
+    public function __construct(
+        MonologConfig $config,
+        FactoryInterface $factory,
+        EventDispatcher $dispatcher
+    ) {
         $this->config = $config;
         $this->factory = $factory;
         $this->dispatcher = $dispatcher;
@@ -60,13 +61,19 @@ class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
     }
 
     /**
-     * Use event dispatcher to handle `LogFactory::LOG_EVENT` event. Only enabled if config allows so.
-     *
-     * @return EventDispatcherInterface
+     * @inheritdoc
      */
-    public function getEventDispatcher(): EventDispatcherInterface
+    public function addListener(callable $listener)
     {
-        return $this->dispatcher;
+        $this->dispatcher->addListener(self::LOG_EVENT, $listener);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function removeListener(callable $listener)
+    {
+        $this->dispatcher->removeListener(self::LOG_EVENT, $listener);
     }
 
     /**
