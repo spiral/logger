@@ -40,7 +40,7 @@ class HandlersTest extends TestCase
 
         $logger = $this->getLogger();
         $this->assertSame("test", $logger->getName());
-        $this->assertCount(0, $logger->getHandlers());
+        $this->assertCount(1, $logger->getHandlers());
     }
 
     public function testDefaultHandler()
@@ -84,7 +84,7 @@ class HandlersTest extends TestCase
 
         $logger = $this->getLogger();
 
-        $this->assertCount(1, $logger->getHandlers());
+        $this->assertCount(2, $logger->getHandlers());
         $this->assertInstanceOf(NullHandler::class, $logger->getHandlers()[0]);
     }
 
@@ -101,7 +101,7 @@ class HandlersTest extends TestCase
 
         $logger = $this->getLogger();
 
-        $this->assertCount(1, $logger->getHandlers());
+        $this->assertCount(2, $logger->getHandlers());
         $this->assertInstanceOf(NullHandler::class, $logger->getHandlers()[0]);
         $this->assertSame($this->container->get('nullHandler'), $logger->getHandlers()[0]);
     }
@@ -120,7 +120,7 @@ class HandlersTest extends TestCase
 
         $logger = $this->getLogger();
 
-        $this->assertCount(1, $logger->getHandlers());
+        $this->assertCount(2, $logger->getHandlers());
         $this->assertInstanceOf(NullHandler::class, $logger->getHandlers()[0]);
     }
 
@@ -141,7 +141,7 @@ class HandlersTest extends TestCase
 
         $logger = $this->getLogger();
 
-        $this->assertCount(1, $logger->getHandlers());
+        $this->assertCount(2, $logger->getHandlers());
         $this->assertInstanceOf(NullHandler::class, $logger->getHandlers()[0]);
         $this->assertFalse($logger->getHandlers()[0]->isHandling(['level' => Logger::DEBUG]));
         $this->assertTrue($logger->getHandlers()[0]->isHandling(['level' => Logger::CRITICAL]));

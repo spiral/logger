@@ -19,16 +19,16 @@ class MonologConfig extends InjectableConfig
 
     /** @var array */
     protected $config = [
-        'globalHandler' => Logger::DEBUG,
-        'handlers'      => []
+        'globalLevel' => Logger::DEBUG,
+        'handlers'    => []
     ];
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getGlobalHandlerLevel(): ?int
+    public function getEventLevel(): int
     {
-        return $this->config['globalHandler'] ?? null;
+        return $this->config['globalLevel'] ?? Logger::DEBUG;
     }
 
     /**

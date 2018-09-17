@@ -56,10 +56,7 @@ class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
         $this->config = $config;
         $this->factory = $factory;
         $this->dispatcher = $dispatcher;
-
-        if ($config->getGlobalHandlerLevel() !== null) {
-            $this->globalHandler = new EventHandler($config->getGlobalHandlerLevel(), $this->dispatcher);
-        }
+        $this->globalHandler = new EventHandler($config->getEventLevel(), $this->dispatcher);
     }
 
     /**
@@ -123,9 +120,7 @@ class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
             $handlers[] = $handler->resolve($this->factory);
         }
 
-        if (!empty($this->globalHandler)) {
-            $handlers[] = $this->globalHandler;
-        }
+        $handlers[] = $this->globalHandler;
 
         return $handlers;
     }

@@ -22,7 +22,7 @@ class ListenersTest extends TestCase
     public function testListenDebug()
     {
         $factory = new LogFactory(new MonologConfig([
-            'globalHandler' => Logger::DEBUG
+            'globalLevel' => Logger::DEBUG
         ]), new Container(), new EventDispatcher());
 
         $logger = $factory->getLogger();
@@ -55,7 +55,7 @@ class ListenersTest extends TestCase
     public function testListenError()
     {
         $factory = new LogFactory(new MonologConfig([
-            'globalHandler' => Logger::ERROR
+            'globalLevel' => Logger::ERROR
         ]), new Container(), new EventDispatcher());
 
         $logger = $factory->getLogger();
