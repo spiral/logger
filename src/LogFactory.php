@@ -46,10 +46,11 @@ class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
     private $globalHandler;
 
     /**
-     * @param MonologConfig   $config
-     * @param EventDispatcher $dispatcher
+     * @param MonologConfig    $config
+     * @param FactoryInterface $factory
+     * @param EventDispatcher  $dispatcher
      */
-    public function __construct(MonologConfig $config, EventDispatcher $dispatcher, FactoryInterface $factory)
+    public function __construct(MonologConfig $config, FactoryInterface $factory, EventDispatcher $dispatcher)
     {
         $this->config = $config;
         $this->dispatcher = $dispatcher;
@@ -77,7 +78,7 @@ class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
      */
     public function getLogger(string $channel = null): LoggerInterface
     {
-        if ($channel == self::DEFAULT) {
+        if ($channel === null || $channel == self::DEFAULT) {
             if (!empty($this->default)) {
                 // we should use only one default logger per system
                 return $this->default;
