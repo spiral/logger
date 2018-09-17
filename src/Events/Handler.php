@@ -6,13 +6,13 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Logger;
+namespace Spiral\Logger\Events;
 
 use Monolog\Handler\AbstractHandler;
-use Spiral\Logger\Events\LogEvent;
+use Spiral\Logger\LogFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class GlobalHandler extends AbstractHandler
+class Handler extends AbstractHandler
 {
     /** @var EventDispatcherInterface */
     private $dispatcher;
