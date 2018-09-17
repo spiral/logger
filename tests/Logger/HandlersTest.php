@@ -8,6 +8,7 @@
 
 namespace Spiral\Logger\Tests;
 
+use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use Spiral\Core\BootloadManager;
@@ -52,5 +53,97 @@ class HandlersTest extends TestCase
         $this->assertSame("test", $logger->getName());
         $this->assertCount(1, $logger->getHandlers());
         $this->assertInstanceOf(EventHandler::class, $logger->getHandlers()[0]);
+    }
+
+    /**
+     * @expectedException \Spiral\Logger\Exceptions\ConfigException
+     */
+    public function testInvalidHandler()
+    {
+        $this->container->bind(MonologConfig::class, new MonologConfig([
+            'globalHandler' => Logger::DEBUG,
+            'handlers'      => [
+                'test' => [
+                    ['what?']
+                ]
+            ]
+        ]));
+
+        $this->getLogger();
+    }
+
+    public function testHandlerObject()
+    {
+        $this->container->bind(MonologConfig::class, new MonologConfig([
+            'handlers' => [
+                'test' => [
+                    new Container\Autowire(NullHandler::class)
+                ]
+            ]
+        ]));
+
+        $logger = $this->getLogger();
+
+        $this->assertCount(1, $logger->getHandlers());
+        $this->assertInstanceOf(NullHandler::class, $logger->getHandlers()[0]);
+    }
+
+    public function testBindedHandler()
+    {
+        $this->container->bind('nullHandler', new NullHandler());
+        $this->container->bind(MonologConfig::class, new MonologConfig([
+            'handlers' => [
+                'test' => [
+                    'nullHandler'
+                ]
+            ]
+        ]));
+
+        $logger = $this->getLogger();
+
+        $this->assertCount(1, $logger->getHandlers());
+        $this->assertInstanceOf(NullHandler::class, $logger->getHandlers()[0]);
+        $this->assertSame($this->container->get('nullHandler'), $logger->getHandlers()[0]);
+    }
+
+    public function testConstructHandler()
+    {
+        $this->container->bind(MonologConfig::class, new MonologConfig([
+            'handlers' => [
+                'test' => [
+                    [
+                        'class' => NullHandler::class
+                    ]
+                ]
+            ]
+        ]));
+
+        $logger = $this->getLogger();
+
+        $this->assertCount(1, $logger->getHandlers());
+        $this->assertInstanceOf(NullHandler::class, $logger->getHandlers()[0]);
+    }
+
+    public function testConstructWithOptionsHandler()
+    {
+        $this->container->bind(MonologConfig::class, new MonologConfig([
+            'handlers' => [
+                'test' => [
+                    [
+                        'class'   => NullHandler::class,
+                        'options' => [
+                            'level' => Logger::CRITICAL
+                        ]
+                    ]
+                ]
+            ]
+        ]));
+
+        $logger = $this->getLogger();
+
+        $this->assertCount(1, $logger->getHandlers());
+        $this->assertInstanceOf(NullHandler::class, $logger->getHandlers()[0]);
+        $this->assertFalse($logger->getHandlers()[0]->isHandling(['level' => Logger::DEBUG]));
+        $this->assertTrue($logger->getHandlers()[0]->isHandling(['level' => Logger::CRITICAL]));
     }
 }

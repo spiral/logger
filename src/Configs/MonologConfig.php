@@ -39,7 +39,7 @@ class MonologConfig extends InjectableConfig
      */
     public function getHandlers(string $channel): \Generator
     {
-        if (!isset($this->config['handlers'][$channel])) {
+        if (empty($this->config['handlers'][$channel])) {
             return;
         }
 

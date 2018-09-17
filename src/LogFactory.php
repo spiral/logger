@@ -37,11 +37,11 @@ class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
     /** @var LoggerInterface */
     private $default;
 
-    /** @var EventDispatcher */
-    private $dispatcher;
-
     /** @var FactoryInterface */
     private $factory;
+
+    /** @var EventDispatcher */
+    private $dispatcher;
 
     /** @var HandlerInterface|null */
     private $globalHandler;
@@ -54,6 +54,7 @@ class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
     public function __construct(MonologConfig $config, FactoryInterface $factory, EventDispatcher $dispatcher)
     {
         $this->config = $config;
+        $this->factory = $factory;
         $this->dispatcher = $dispatcher;
 
         if ($config->getGlobalHandlerLevel() !== null) {
