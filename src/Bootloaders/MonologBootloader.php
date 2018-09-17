@@ -8,14 +8,17 @@
 
 namespace Spiral\Logger\Bootloaders;
 
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Spiral\Core\Bootloaders\Bootloader;
 use Spiral\Core\Container;
-use Spiral\Logger\LogsInterface;
 use Spiral\Logger\LogFactory;
+use Spiral\Logger\LogsInterface;
 
-class MonologBootloader extends Bootloader
+class MonologBootloader extends Bootloader implements Container\SingletonInterface
 {
     const BOOT = true;
 
@@ -24,11 +27,42 @@ class MonologBootloader extends Bootloader
         LoggerInterface::class => Logger::class
     ];
 
+    const BINDINGS = [
+        'log.rotate' => [self::class, 'logRotate']
+    ];
+
     /**
      * @param Container $container
      */
     public function boot(Container $container)
     {
         $container->bindInjector(Logger::class, LogFactory::class);
+    }
+
+    /**
+     * @param string $filename
+     * @param int    $level
+     * @param int    $maxFiles
+     * @param bool   $bubble
+     * @return HandlerInterface
+     */
+    public function logRotate(
+        string $filename,
+        int $level = Logger::DEBUG,
+        int $maxFiles = 0,
+        bool $bubble = false
+    ): HandlerInterface {
+        $handler = new RotatingFileHandler(
+            $filename,
+            $maxFiles,
+            $level,
+            $bubble,
+            null,
+            false
+        );
+
+        return $handler->setFormatter(
+            new LineFormatter("[%datetime%] %level_name%: %message%\n")
+        );
     }
 }
