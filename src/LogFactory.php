@@ -18,7 +18,7 @@ use Spiral\Core\Container\SingletonInterface;
 use Spiral\Core\FactoryInterface;
 use Spiral\Debug\LogsInterface;
 use Spiral\Logger\Configs\MonologConfig;
-use Spiral\Logger\Events\Handler;
+use Spiral\Logger\Events\EventHandler;
 use Spiral\Logger\Exceptions\ConfigException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -57,7 +57,7 @@ class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface
         $this->dispatcher = $dispatcher;
 
         if ($config->getGlobalHandlerLevel() !== null) {
-            $this->globalHandler = new Handler($config->getGlobalHandlerLevel(), $this->dispatcher);
+            $this->globalHandler = new EventHandler($config->getGlobalHandlerLevel(), $this->dispatcher);
         }
     }
 

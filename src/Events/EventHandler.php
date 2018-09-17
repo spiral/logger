@@ -12,7 +12,7 @@ use Monolog\Handler\AbstractHandler;
 use Spiral\Logger\LogFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class Handler extends AbstractHandler
+class EventHandler extends AbstractHandler
 {
     /** @var EventDispatcherInterface */
     private $dispatcher;
