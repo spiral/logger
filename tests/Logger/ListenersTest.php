@@ -12,8 +12,8 @@ namespace Spiral\Logger\Tests;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use Spiral\Core\Container;
-use Spiral\Logger\Configs\MonologConfig;
-use Spiral\Logger\Events\LogEvent;
+use Spiral\Logger\Config\MonologConfig;
+use Spiral\Logger\Event\LogEvent;
 use Spiral\Logger\LogFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 

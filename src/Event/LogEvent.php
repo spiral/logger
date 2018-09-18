@@ -6,7 +6,7 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Logger\Events;
+namespace Spiral\Logger\Event;
 
 use Monolog\Logger;
 use Symfony\Component\EventDispatcher\Event;

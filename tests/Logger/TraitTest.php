@@ -14,8 +14,8 @@ use Psr\Log\NullLogger;
 use Spiral\Core\BootloadManager;
 use Spiral\Core\Container;
 use Spiral\Core\ContainerScope;
-use Spiral\Logger\Bootloaders\MonologBootloader;
-use Spiral\Logger\Configs\MonologConfig;
+use Spiral\Logger\Bootloader\MonologBootloader;
+use Spiral\Logger\Config\MonologConfig;
 use Spiral\Logger\Traits\LoggerTrait;
 
 class TraitTest extends TestCase

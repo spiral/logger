@@ -6,14 +6,14 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Logger\Bootloaders;
+namespace Spiral\Logger\Bootloader;
 
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
-use Spiral\Core\Bootloaders\Bootloader;
+use Spiral\Core\Bootloader\Bootloader;
 use Spiral\Core\Container;
 use Spiral\Logger\LogFactory;
 use Spiral\Logger\LogsInterface;

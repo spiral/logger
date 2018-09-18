@@ -6,7 +6,7 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Logger\Exceptions;
+namespace Spiral\Logger\Exception;
 
 class ConfigException extends \RuntimeException
 {

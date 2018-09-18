@@ -13,7 +13,7 @@ use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
 use Spiral\Core\BootloadManager;
 use Spiral\Core\Container;
-use Spiral\Logger\Bootloaders\MonologBootloader;
+use Spiral\Logger\Bootloader\MonologBootloader;
 
 class RotateHandlerTest extends TestCase
 {

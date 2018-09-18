@@ -6,12 +6,12 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Logger\Configs;
+namespace Spiral\Logger\Config;
 
 use Monolog\Logger;
 use Spiral\Core\Container\Autowire;
 use Spiral\Core\InjectableConfig;
-use Spiral\Logger\Exceptions\ConfigException;
+use Spiral\Logger\Exception\ConfigException;
 
 class MonologConfig extends InjectableConfig
 {

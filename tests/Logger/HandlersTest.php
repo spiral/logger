@@ -14,9 +14,9 @@ use PHPUnit\Framework\TestCase;
 use Spiral\Core\BootloadManager;
 use Spiral\Core\Container;
 use Spiral\Logger\LogsInterface;
-use Spiral\Logger\Bootloaders\MonologBootloader;
-use Spiral\Logger\Configs\MonologConfig;
-use Spiral\Logger\Events\EventHandler;
+use Spiral\Logger\Bootloader\MonologBootloader;
+use Spiral\Logger\Config\MonologConfig;
+use Spiral\Logger\Event\EventHandler;
 
 class HandlersTest extends TestCase
 {
@@ -56,7 +56,7 @@ class HandlersTest extends TestCase
     }
 
     /**
-     * @expectedException \Spiral\Logger\Exceptions\ConfigException
+     * @expectedException \Spiral\Logger\Exception\ConfigException
      */
     public function testInvalidHandler()
     {

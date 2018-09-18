@@ -16,9 +16,9 @@ use Psr\Log\LoggerInterface;
 use Spiral\Core\Container\InjectorInterface;
 use Spiral\Core\Container\SingletonInterface;
 use Spiral\Core\FactoryInterface;
-use Spiral\Logger\Configs\MonologConfig;
-use Spiral\Logger\Events\EventHandler;
-use Spiral\Logger\Exceptions\ConfigException;
+use Spiral\Logger\Config\MonologConfig;
+use Spiral\Logger\Event\EventHandler;
+use Spiral\Logger\Exception\ConfigException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class LogFactory implements LogsInterface, InjectorInterface, SingletonInterface

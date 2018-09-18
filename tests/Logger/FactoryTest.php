@@ -13,8 +13,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Spiral\Core\BootloadManager;
 use Spiral\Core\Container;
-use Spiral\Logger\Bootloaders\MonologBootloader;
-use Spiral\Logger\Configs\MonologConfig;
+use Spiral\Logger\Bootloader\MonologBootloader;
+use Spiral\Logger\Config\MonologConfig;
 use Spiral\Logger\LogFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
