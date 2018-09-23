@@ -8,7 +8,6 @@
 
 namespace Spiral\Logger\Event;
 
-use Monolog\Logger;
 use Symfony\Component\EventDispatcher\Event;
 
 final class LogEvent extends Event
@@ -21,7 +20,7 @@ final class LogEvent extends Event
     /** @var string */
     private $channel;
 
-    /** @var int */
+    /** @var string */
     private $level;
 
     /** @var string */
@@ -33,14 +32,14 @@ final class LogEvent extends Event
     /**
      * @param \DateTimeInterface $time
      * @param string             $channel
-     * @param int                $level
+     * @param string             $level
      * @param string             $message
      * @param array              $context
      */
     public function __construct(
         \DateTimeInterface $time,
         string $channel,
-        int $level,
+        string $level,
         string $message,
         array $context = []
     ) {
@@ -68,19 +67,11 @@ final class LogEvent extends Event
     }
 
     /**
-     * @return int
-     */
-    public function getLevel(): int
-    {
-        return $this->level;
-    }
-
-    /**
      * @return string
      */
-    public function getLevelName(): string
+    public function getLevel(): string
     {
-        return Logger::getLevelName($this->level);
+        return $this->level;
     }
 
     /**

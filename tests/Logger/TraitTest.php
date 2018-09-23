@@ -8,14 +8,12 @@
 
 namespace Spiral\Logger\Tests;
 
-use Monolog\Logger;
+use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
-use Spiral\Core\BootloadManager;
 use Spiral\Core\Container;
 use Spiral\Core\ContainerScope;
-use Spiral\Logger\Bootloader\MonologBootloader;
-use Spiral\Logger\Config\MonologConfig;
+use Spiral\Logger\LogsInterface;
 use Spiral\Logger\Traits\LoggerTrait;
 
 class TraitTest extends TestCase
@@ -43,13 +41,16 @@ class TraitTest extends TestCase
 
     public function testScope()
     {
+        $logs = m::mock(LogsInterface::class);
+        $logs->shouldReceive('getLogger')
+            ->with(self::class)
+            ->andReturn(new NullLogger());
+
         $container = new Container();
-        $container->get(BootloadManager::class)->bootload([MonologBootloader::class]);
-        $container->bind(MonologConfig::class, new MonologConfig());
+        $container->bind(LogsInterface::class, $logs);
 
         ContainerScope::runScope($container, function () {
-            $this->assertInstanceOf(Logger::class, $this->getLogger());
-            $this->assertSame(self::class, $this->getLogger()->getName());
+            $this->assertInstanceOf(NullLogger::class, $this->getLogger());
         });
     }
 }
