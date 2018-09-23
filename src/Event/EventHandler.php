@@ -9,10 +9,9 @@
 namespace Spiral\Logger\Event;
 
 use Monolog\Handler\AbstractHandler;
-use Spiral\Logger\LogFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class EventHandler extends AbstractHandler
+final class EventHandler extends AbstractHandler
 {
     /** @var EventDispatcherInterface */
     private $dispatcher;
@@ -33,7 +32,7 @@ class EventHandler extends AbstractHandler
      */
     public function handle(array $record)
     {
-        $this->dispatcher->dispatch(LogFactory::LOG_EVENT, new LogEvent(
+        $this->dispatcher->dispatch(LogEvent::EVENT, new LogEvent(
             $record['datetime'],
             $record['channel'],
             $record['level'],

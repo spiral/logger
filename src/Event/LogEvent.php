@@ -11,8 +11,10 @@ namespace Spiral\Logger\Event;
 use Monolog\Logger;
 use Symfony\Component\EventDispatcher\Event;
 
-class LogEvent extends Event
+final class LogEvent extends Event
 {
+    const EVENT = 'log';
+
     /** @var \DateTimeInterface */
     private $time;
 
