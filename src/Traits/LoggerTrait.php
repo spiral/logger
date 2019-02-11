@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -13,6 +14,9 @@ use Psr\Log\NullLogger;
 use Spiral\Core\ContainerScope;
 use Spiral\Logger\LogsInterface;
 
+/**
+ * Logger trait provides access to the logger from the global container scope (if exists).
+ */
 trait LoggerTrait
 {
     /**
