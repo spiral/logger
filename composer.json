@@ -15,7 +15,6 @@
     "spiral/core": "^1.0"
   },
   "require-dev": {
-    "symfony/event-dispatcher": "^4.1",
     "phpunit/phpunit": "~7.0",
     "mockery/mockery": "^1.1"
   },

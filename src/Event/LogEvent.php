@@ -8,9 +8,7 @@
 
 namespace Spiral\Logger\Event;
 
-use Symfony\Component\EventDispatcher\Event;
-
-final class LogEvent extends Event
+final class LogEvent
 {
     const EVENT = 'log';
 
