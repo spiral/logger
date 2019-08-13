@@ -19,10 +19,7 @@ use Spiral\Logger\LogsInterface;
  */
 trait LoggerTrait
 {
-    /**
-     * @invisible
-     * @var LoggerInterface|null
-     */
+    /** @var LoggerInterface|null @internal */
     private $logger = null;
 
     /**
