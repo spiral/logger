@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+
 declare(strict_types=1);
 
 namespace Spiral\Logger;
@@ -40,7 +42,7 @@ final class NullLogger implements LoggerInterface
      * @param string $message
      * @param array  $context
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = []): void
     {
         call_user_func($this->receptor, $this->channel, $level, $message, $context);
     }
