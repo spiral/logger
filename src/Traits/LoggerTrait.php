@@ -35,24 +35,30 @@ trait LoggerTrait
     /**
      * Get associated or create new instance of LoggerInterface.
      *
+     * @param string $channel
      * @return LoggerInterface
      */
-    protected function getLogger(): LoggerInterface
+    protected function getLogger(string $channel = null): LoggerInterface
     {
-        if (!empty($this->logger)) {
+        if ($channel !== null) {
+            return $this->allocateLogger($channel);
+        }
+
+        if ($this->logger !== null) {
             return $this->logger;
         }
 
         //We are using class name as log channel (name) by default
-        return $this->logger = $this->createLogger();
+        return $this->logger = $this->allocateLogger(static::class);
     }
 
     /**
      * Create new instance of associated logger (on demand creation).
      *
+     * @param string $channel
      * @return LoggerInterface
      */
-    private function createLogger(): LoggerInterface
+    private function allocateLogger(string $channel): LoggerInterface
     {
         $container = ContainerScope::getContainer();
         if (empty($container) || !$container->has(LogsInterface::class)) {
@@ -60,6 +66,6 @@ trait LoggerTrait
         }
 
         //We are using class name as log channel (name) by default
-        return $container->get(LogsInterface::class)->getLogger(static::class);
+        return $container->get(LogsInterface::class)->getLogger($channel);
     }
 }
