@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+
 declare(strict_types=1);
 
 namespace Spiral\Logger\Tests;
@@ -15,20 +17,20 @@ use Spiral\Logger\Event\LogEvent;
 
 class EventTest extends TestCase
 {
-    public function testListenDebug()
+    public function testListenDebug(): void
     {
         $e = new LogEvent(
             new \DateTime(),
-            "default",
+            'default',
             LogLevel::DEBUG,
-            "message",
-            ["context"]
+            'message',
+            ['context']
         );
 
         $this->assertInstanceOf(\DateTimeInterface::class, $e->getTime());
-        $this->assertSame("default", $e->getChannel());
+        $this->assertSame('default', $e->getChannel());
         $this->assertSame(LogLevel::DEBUG, $e->getLevel());
-        $this->assertSame("message", $e->getMessage());
+        $this->assertSame('message', $e->getMessage());
         $this->assertSame(['context'], $e->getContext());
     }
 }

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+
 declare(strict_types=1);
 
 namespace Spiral\Logger;
@@ -17,8 +19,16 @@ use Spiral\Logger\Event\LogEvent;
  */
 final class LogFactory implements LogsInterface
 {
-    /** @var callable[] */
-    private $listeners = [];
+    /** @var ListenerRegistryInterface */
+    private $listenedRegistry;
+
+    /**
+     * @param ListenerRegistryInterface $listenedRegistry
+     */
+    public function __construct(ListenerRegistryInterface $listenedRegistry)
+    {
+        $this->listenedRegistry = $listenedRegistry;
+    }
 
     /**
      * @param string $channel
@@ -35,7 +45,7 @@ final class LogFactory implements LogsInterface
      * @param string $message
      * @param array  $context
      */
-    public function log($channel, $level, $message, array $context = [])
+    public function log($channel, $level, $message, array $context = []): void
     {
         $e = new LogEvent(
             new \DateTime(),
@@ -45,29 +55,8 @@ final class LogFactory implements LogsInterface
             $context
         );
 
-        foreach ($this->listeners as $listener) {
+        foreach ($this->listenedRegistry->getListeners() as $listener) {
             call_user_func($listener, $e);
-        }
-    }
-
-    /**
-     * @param callable $listener
-     */
-    public function addListener(callable $listener)
-    {
-        if (!array_search($listener, $this->listeners, true)) {
-            $this->listeners[] = $listener;
-        }
-    }
-
-    /**
-     * @param callable $listener
-     */
-    public function removeListener(callable $listener)
-    {
-        $key = array_search($listener, $this->listeners, true);
-        if ($key !== null) {
-            unset($this->listeners[$key]);
         }
     }
 }
