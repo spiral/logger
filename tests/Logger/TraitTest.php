@@ -63,7 +63,7 @@ class TraitTest extends TestCase
         $container = new Container();
         $container->bind(LogsInterface::class, $logs);
 
-        ContainerScope::runScope($container, function () use ($logsInterfaceLogger) : void {
+        ContainerScope::runScope($container, function () use ($logsInterfaceLogger): void {
             $this->assertEquals($logsInterfaceLogger, $this->getLogger());
         });
     }
@@ -93,12 +93,12 @@ class TraitTest extends TestCase
         $container = new Container();
         $container->bind(LogsInterface::class, $logs);
 
-        ContainerScope::runScope($container, function () use ($logsInterfaceLogger) : void {
+        ContainerScope::runScope($container, function () use ($logsInterfaceLogger): void {
             $this->assertEquals($logsInterfaceLogger, $this->getLogger('test-channel'));
         });
     }
 
-    public function testGetsLoggerWhenChannelPassedAndLoggerSetButContainerDoesNotExists()
+    public function testGetsLoggerWhenChannelPassedAndLoggerSetButContainerDoesNotExists(): void
     {
         $logger = m::mock(LoggerInterface::class);
         $this->setLogger($logger);
@@ -106,13 +106,13 @@ class TraitTest extends TestCase
         $this->assertEquals($logger, $this->getLogger('test-channel'));
     }
 
-    public function testGetsLoggerWhenChannelPassedAndLoggerSetAndContainerExistsButContainerDoesNotHaveLogsInterface()
+    public function testGetsLoggerWhenChannelPassedAndLoggerSetAndContainerExistsButContainerDoesNotHaveLogsInterface(): void
     {
         $logger = m::mock(LoggerInterface::class);
         $this->setLogger($logger);
         $container = new Container();
 
-        ContainerScope::runScope($container, function () use ($logger) : void {
+        ContainerScope::runScope($container, function () use ($logger): void {
             $this->assertEquals($logger, $this->getLogger('test-channel'));
         });
     }
