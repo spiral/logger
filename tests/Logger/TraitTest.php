@@ -106,7 +106,7 @@ class TraitTest extends TestCase
         $this->assertEquals($logger, $this->getLogger('test-channel'));
     }
 
-    public function testGetsLoggerWhenChannelPassedAndLoggerSetAndContainerExistsButContainerDoesNotHaveLogsInterface(): void
+    public function testGetsLoggerWhenChannelPassedAndLoggerSetAndContainerExistsButItDoesNotHaveLogsInterface(): void
     {
         $logger = m::mock(LoggerInterface::class);
         $this->setLogger($logger);
