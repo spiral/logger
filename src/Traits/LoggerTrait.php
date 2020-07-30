@@ -64,7 +64,7 @@ trait LoggerTrait
     {
         $container = ContainerScope::getContainer();
         if (empty($container) || !$container->has(LogsInterface::class)) {
-            return new NullLogger();
+            return $this->logger ?? new NullLogger();
         }
 
         //We are using class name as log channel (name) by default
