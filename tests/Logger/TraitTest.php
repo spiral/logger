@@ -63,7 +63,7 @@ class TraitTest extends TestCase
         $container = new Container();
         $container->bind(LogsInterface::class, $logs);
 
-        ContainerScope::runScope($container, function () use($logsInterfaceLogger): void {
+        ContainerScope::runScope($container, function () use ($logsInterfaceLogger) : void {
             $this->assertEquals($logsInterfaceLogger, $this->getLogger());
         });
     }
@@ -93,7 +93,7 @@ class TraitTest extends TestCase
         $container = new Container();
         $container->bind(LogsInterface::class, $logs);
 
-        ContainerScope::runScope($container, function () use($logsInterfaceLogger): void {
+        ContainerScope::runScope($container, function () use ($logsInterfaceLogger) : void {
             $this->assertEquals($logsInterfaceLogger, $this->getLogger('test-channel'));
         });
     }
@@ -112,7 +112,7 @@ class TraitTest extends TestCase
         $this->setLogger($logger);
         $container = new Container();
 
-        ContainerScope::runScope($container, function () use($logger): void {
+        ContainerScope::runScope($container, function () use ($logger) : void {
             $this->assertEquals($logger, $this->getLogger('test-channel'));
         });
     }
