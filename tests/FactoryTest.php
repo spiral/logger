@@ -59,8 +59,8 @@ class FactoryTest extends TestCase
         $this->container->get(StrategyBasedBootloadManager::class)->bootload([LoggerBootloader::class]);
         $this->container->bindSingleton(LogsInterface::class, $factory);
 
-        self::assertInstanceOf(LoggerInterface::class, $logger = $this->container->get(LoggerInterface::class));
-        self::assertSame(LoggerInjector::DEFAULT_CHANNEL, $logger->getName());
+        $this->assertInstanceOf(LoggerInterface::class, $logger = $this->container->get(LoggerInterface::class));
+        $this->assertSame(LoggerInjector::DEFAULT_CHANNEL, $logger->getName());
     }
 
     public function testInjectionNullableChannel(): void
@@ -76,8 +76,8 @@ class FactoryTest extends TestCase
         $this->container->get(StrategyBasedBootloadManager::class)->bootload([LoggerBootloader::class]);
         $this->container->bindSingleton(LogsInterface::class, $factory);
 
-        self::assertInstanceOf(LoggerInterface::class, $logger = $this->container->get(LoggerInterface::class));
-        self::assertNull($logger->getName());
+        $this->assertInstanceOf(LoggerInterface::class, $logger = $this->container->get(LoggerInterface::class));
+        $this->assertNull($logger->getName());
     }
 
     public function testInjectionWithAttribute(): void
@@ -93,8 +93,8 @@ class FactoryTest extends TestCase
         $this->container->get(StrategyBasedBootloadManager::class)->bootload([LoggerBootloader::class]);
         $this->container->bindSingleton(LogsInterface::class, $factory);
 
-        $this->container->invoke(function (#[LoggerChannel('foo')] LoggerInterface $logger): void {
-            self::assertSame('foo', $logger->getName());
+        $this->container->invoke(function (#[LoggerChannel('foo')] LoggerInterface $logger) {
+            $this->assertSame('foo', $logger->getName());
         });
     }
 
@@ -103,9 +103,9 @@ class FactoryTest extends TestCase
     {
         $l = new ListenerRegistry();
         $l->addListener(function (LogEvent $event): void {
-            self::assertSame('error', $event->getMessage());
-            self::assertSame('default', $event->getChannel());
-            self::assertSame(LogLevel::CRITICAL, $event->getLevel());
+            $this->assertSame('error', $event->getMessage());
+            $this->assertSame('default', $event->getChannel());
+            $this->assertSame(LogLevel::CRITICAL, $event->getLevel());
         });
 
         $f = new LogFactory($l);
