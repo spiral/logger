@@ -17,7 +17,7 @@ class TraitTest extends TestCase
 {
     use LoggerTrait;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         $this->logger = null;
     }
@@ -25,15 +25,15 @@ class TraitTest extends TestCase
     public function testNoScope(): void
     {
         $logger = $this->getLogger();
-        self::assertInstanceOf(NullLogger::class, $this->getLogger());
-        self::assertSame($logger, $this->getLogger());
+        $this->assertInstanceOf(NullLogger::class, $this->getLogger());
+        $this->assertSame($logger, $this->getLogger());
     }
 
     public function testSetLogger(): void
     {
         $logger = new NullLogger();
         $this->setLogger($logger);
-        self::assertSame($logger, $this->getLogger());
+        $this->assertSame($logger, $this->getLogger());
     }
 
     public function testGetsLoggerWhenChannelNotPassedAndContainerExistsButItDoesNotHaveLogsInterface(): void
@@ -41,7 +41,7 @@ class TraitTest extends TestCase
         $container = new Container();
 
         ContainerScope::runScope($container, function (): void {
-            self::assertInstanceOf(NullLogger::class, $this->getLogger());
+            $this->assertInstanceOf(NullLogger::class, $this->getLogger());
         });
     }
 
@@ -57,13 +57,13 @@ class TraitTest extends TestCase
         $container->bind(LogsInterface::class, $logs);
 
         ContainerScope::runScope($container, function () use ($logsInterfaceLogger): void {
-            self::assertEquals($logsInterfaceLogger, $this->getLogger());
+            $this->assertEquals($logsInterfaceLogger, $this->getLogger());
         });
     }
 
     public function testGetsLoggerWhenChannelPassedAndContainerDoesNotExist(): void
     {
-        self::assertInstanceOf(NullLogger::class, $this->getLogger('test-channel'));
+        $this->assertInstanceOf(NullLogger::class, $this->getLogger('test-channel'));
     }
 
     public function testGetsLoggerWhenChannelPassedAndContainerExistsButItDoesNotHaveLogsInterface(): void
@@ -71,7 +71,7 @@ class TraitTest extends TestCase
         $container = new Container();
 
         ContainerScope::runScope($container, function (): void {
-            self::assertInstanceOf(NullLogger::class, $this->getLogger('test-channel'));
+            $this->assertInstanceOf(NullLogger::class, $this->getLogger('test-channel'));
         });
     }
 
@@ -87,7 +87,7 @@ class TraitTest extends TestCase
         $container->bind(LogsInterface::class, $logs);
 
         ContainerScope::runScope($container, function () use ($logsInterfaceLogger): void {
-            self::assertEquals($logsInterfaceLogger, $this->getLogger('test-channel'));
+            $this->assertEquals($logsInterfaceLogger, $this->getLogger('test-channel'));
         });
     }
 
@@ -96,7 +96,7 @@ class TraitTest extends TestCase
         $logger = m::mock(LoggerInterface::class);
         $this->setLogger($logger);
 
-        self::assertEquals($logger, $this->getLogger('test-channel'));
+        $this->assertEquals($logger, $this->getLogger('test-channel'));
     }
 
     public function testGetsLoggerWhenChannelPassedAndLoggerSetAndContainerExistsButItDoesNotHaveLogsInterface(): void
@@ -106,7 +106,7 @@ class TraitTest extends TestCase
         $container = new Container();
 
         ContainerScope::runScope($container, function () use ($logger): void {
-            self::assertEquals($logger, $this->getLogger('test-channel'));
+            $this->assertEquals($logger, $this->getLogger('test-channel'));
         });
     }
 }
