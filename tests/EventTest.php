@@ -17,13 +17,13 @@ class EventTest extends TestCase
             'default',
             LogLevel::DEBUG,
             'message',
-            ['context']
+            ['context'],
         );
 
-        $this->assertInstanceOf(\DateTimeInterface::class, $e->getTime());
-        $this->assertSame('default', $e->getChannel());
-        $this->assertSame(LogLevel::DEBUG, $e->getLevel());
-        $this->assertSame('message', $e->getMessage());
-        $this->assertSame(['context'], $e->getContext());
+        self::assertInstanceOf(\DateTimeInterface::class, $e->getTime());
+        self::assertSame('default', $e->getChannel());
+        self::assertSame(LogLevel::DEBUG, $e->getLevel());
+        self::assertSame('message', $e->getMessage());
+        self::assertSame(['context'], $e->getContext());
     }
 }

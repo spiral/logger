@@ -31,14 +31,6 @@ class FactoryTest extends TestCase
 
     protected Container $container;
 
-    protected function setUp(): void
-    {
-        $this->container = new Container();
-        $this->container->bind(EnvironmentInterface::class, new Environment());
-        $this->container->bind(InvokerStrategyInterface::class, DefaultInvokerStrategy::class);
-        $this->container->bind(InitializerInterface::class, Initializer::class);
-    }
-
     #[DoesNotPerformAssertions]
     public function testDefaultLogger(): void
     {
@@ -48,7 +40,7 @@ class FactoryTest extends TestCase
 
     public function testInjection(): void
     {
-        $factory = new class () implements LogsInterface {
+        $factory = new class implements LogsInterface {
             public function getLogger(string $channel): LoggerInterface
             {
                 $mock = \Mockery::mock(LoggerInterface::class);
@@ -59,13 +51,13 @@ class FactoryTest extends TestCase
         $this->container->get(StrategyBasedBootloadManager::class)->bootload([LoggerBootloader::class]);
         $this->container->bindSingleton(LogsInterface::class, $factory);
 
-        $this->assertInstanceOf(LoggerInterface::class, $logger = $this->container->get(LoggerInterface::class));
-        $this->assertSame(LoggerInjector::DEFAULT_CHANNEL, $logger->getName());
+        self::assertInstanceOf(LoggerInterface::class, $logger = $this->container->get(LoggerInterface::class));
+        self::assertSame(LoggerInjector::DEFAULT_CHANNEL, $logger->getName());
     }
 
     public function testInjectionNullableChannel(): void
     {
-        $factory = new class () implements LogsInterface {
+        $factory = new class implements LogsInterface {
             public function getLogger(?string $channel): LoggerInterface
             {
                 $mock = \Mockery::mock(LoggerInterface::class);
@@ -76,13 +68,13 @@ class FactoryTest extends TestCase
         $this->container->get(StrategyBasedBootloadManager::class)->bootload([LoggerBootloader::class]);
         $this->container->bindSingleton(LogsInterface::class, $factory);
 
-        $this->assertInstanceOf(LoggerInterface::class, $logger = $this->container->get(LoggerInterface::class));
-        $this->assertNull($logger->getName());
+        self::assertInstanceOf(LoggerInterface::class, $logger = $this->container->get(LoggerInterface::class));
+        self::assertNull($logger->getName());
     }
 
     public function testInjectionWithAttribute(): void
     {
-        $factory = new class () implements LogsInterface {
+        $factory = new class implements LogsInterface {
             public function getLogger(?string $channel): LoggerInterface
             {
                 $mock = \Mockery::mock(LoggerInterface::class);
@@ -93,19 +85,18 @@ class FactoryTest extends TestCase
         $this->container->get(StrategyBasedBootloadManager::class)->bootload([LoggerBootloader::class]);
         $this->container->bindSingleton(LogsInterface::class, $factory);
 
-        $this->container->invoke(function (#[LoggerChannel('foo')] LoggerInterface $logger) {
-            $this->assertSame('foo', $logger->getName());
+        $this->container->invoke(function (#[LoggerChannel('foo')] LoggerInterface $logger): void {
+            self::assertSame('foo', $logger->getName());
         });
     }
-
 
     public function testEvent(): void
     {
         $l = new ListenerRegistry();
         $l->addListener(function (LogEvent $event): void {
-            $this->assertSame('error', $event->getMessage());
-            $this->assertSame('default', $event->getChannel());
-            $this->assertSame(LogLevel::CRITICAL, $event->getLevel());
+            self::assertSame('error', $event->getMessage());
+            self::assertSame('default', $event->getChannel());
+            self::assertSame(LogLevel::CRITICAL, $event->getLevel());
         });
 
         $f = new LogFactory($l);
@@ -113,5 +104,13 @@ class FactoryTest extends TestCase
         $l = $f->getLogger('default');
 
         $l->critical('error');
+    }
+
+    protected function setUp(): void
+    {
+        $this->container = new Container();
+        $this->container->bind(EnvironmentInterface::class, new Environment());
+        $this->container->bind(InvokerStrategyInterface::class, DefaultInvokerStrategy::class);
+        $this->container->bind(InitializerInterface::class, Initializer::class);
     }
 }
