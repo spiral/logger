@@ -13,12 +13,13 @@ use Spiral\Logger\Event\LogEvent;
 final class LogFactory implements LogsInterface
 {
     public function __construct(
-        private readonly ListenerRegistryInterface $listenedRegistry,
-    ) {}
+        private readonly ListenerRegistryInterface $listenedRegistry
+    ) {
+    }
 
     public function getLogger(string $channel): LoggerInterface
     {
-        return new NullLogger($this->log(...), $channel);
+        return new NullLogger([$this, 'log'], $channel);
     }
 
     public function log(string $channel, mixed $level, string $message, array $context = []): void
@@ -28,7 +29,7 @@ final class LogFactory implements LogsInterface
             $channel,
             (string) $level,
             $message,
-            $context,
+            $context
         );
 
         foreach ($this->listenedRegistry->getListeners() as $listener) {

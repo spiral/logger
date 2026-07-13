@@ -14,6 +14,7 @@ use Spiral\Logger\LogsInterface;
  */
 trait LoggerTrait
 {
+    /** @internal */
     private ?LoggerInterface $logger = null;
 
     /**
@@ -27,7 +28,7 @@ trait LoggerTrait
     /**
      * Get associated or create new instance of LoggerInterface.
      */
-    protected function getLogger(?string $channel = null): LoggerInterface
+    protected function getLogger(string $channel = null): LoggerInterface
     {
         if ($channel !== null) {
             return $this->allocateLogger($channel);
@@ -47,7 +48,7 @@ trait LoggerTrait
     private function allocateLogger(string $channel): LoggerInterface
     {
         $container = ContainerScope::getContainer();
-        if ($container === null || !$container->has(LogsInterface::class)) {
+        if (empty($container) || !$container->has(LogsInterface::class)) {
             return $this->logger ?? new NullLogger();
         }
 
